@@ -1,0 +1,40 @@
+.containerUserForm {
+  background-color: gold;
+  padding: 20px;
+  max-height: 250px;
+}
+
+.addUser {
+  background-color: black;
+  color: white;
+  padding: 6px;
+  border-radius: 5px;
+}
+.addUser:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 6px;
+  border: 1ppx solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  text-align: right;
+}
+.dataUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.dataUser input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.dataUser label {
+  padding: 5px 0px;
+}

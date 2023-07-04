@@ -1,0 +1,17 @@
+.user {
+  border-bottom: 1px solid black;
+  display: flex;
+}
+
+.userContainer {
+  width: 600px;
+}
+
+.buttons {
+  display: flex;
+  align-items: end;
+}
+
+.buttons a {
+  margin: 0.5rem;
+}
