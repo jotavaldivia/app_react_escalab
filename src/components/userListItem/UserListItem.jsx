@@ -3,19 +3,7 @@ import s from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 
-const Users = ({ users, user, setUsers, editing, setEditing }) => {
-  const handleDeleteUser = (id) => {
-    const newUsers = users.filter((user) => user.id !== id);
-    setUsers(newUsers);
-  };
-
-  const handleEditUser = (id) => {
-    setEditing(editing ? false : true);
-    console.log("editando usuario", id);
-    const userToEdit = users.find((user) => user.id === id);
-    console.log(userToEdit);
-  };
-
+const Users = ({ user, deleteUser, updateUser }) => {
   return (
     <>
       <li className={s.user}>
@@ -33,8 +21,8 @@ const Users = ({ users, user, setUsers, editing, setEditing }) => {
 
         <div className={s.buttons}>
           <a
-            onClick={() => {
-              handleEditUser(user.id);
+            onClick={(e) => {
+              updateUser(e, user);
             }}
           >
             {" "}
@@ -42,7 +30,7 @@ const Users = ({ users, user, setUsers, editing, setEditing }) => {
           </a>
           <a
             onClick={() => {
-              handleDeleteUser(user.id);
+              deleteUser(user.id);
             }}
           >
             {" "}
@@ -60,6 +48,8 @@ Users.propTypes = {
     name: PropTypes.string.isRequired,
     age: PropTypes.number.isRequired,
   }).isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
 };
 
 export default Users;

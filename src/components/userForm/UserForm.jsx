@@ -1,30 +1,23 @@
-import { useState } from "react";
 import { PropTypes } from "prop-types";
 import s from "./index.module.css";
 
-const UserForm = ({ users, setUsers }) => {
-  const [user, setUser] = useState({
-    name: null,
-    age: null,
-  });
+const UserForm = (props) => {
+  const { addUser, isEdit, user, setUser, handleUpdateUser } = props;
   const { name, age } = user;
-
-  const handleAddUser = (e) => {
-    const id = Math.floor(Math.random() * 10000) + 1;
-    console.log(name, age);
-    e.preventDefault();
-    const newUser = {
-      id: id,
-      name: name,
-      age: age,
-    };
-    setUsers([...users, newUser]);
-  };
 
   return (
     <div className={s.containerUserForm}>
       <h1>Formulario de registro</h1>
-      <form onSubmit={handleAddUser}>
+      <form
+        onSubmit={(e) => {
+          if (isEdit) {
+            console.log("estas editando un usuario");
+            handleUpdateUser(e, user);
+          } else {
+            addUser(e, user);
+          }
+        }}
+      >
         <div className={s.dataUser}>
           <label>Nombre :</label>
           <input
@@ -46,7 +39,11 @@ const UserForm = ({ users, setUsers }) => {
           />
         </div>
         <div className={s.buttonContainer}>
-          <button className={s.addUser}>Agregar Nuevo Usuario</button>
+          {isEdit ? (
+            <button className={s.addUser}>Editar Usuario</button>
+          ) : (
+            <button className={s.addUser}>Agregar Nuevo Usuario</button>
+          )}
         </div>
       </form>
     </div>
@@ -55,8 +52,14 @@ const UserForm = ({ users, setUsers }) => {
 
 export default UserForm;
 
-UserForm.prototype = {
-  handleAddUser: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  edad: PropTypes.number.isRequired,
+UserForm.propTypes = {
+  addUser: PropTypes.func,
+  isEdit: PropTypes.bool,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    age: PropTypes.number,
+  }).isRequired,
+  setUser: PropTypes.func,
+  handleUpdateUser: PropTypes.func,
 };
