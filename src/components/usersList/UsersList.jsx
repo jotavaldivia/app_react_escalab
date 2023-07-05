@@ -1,8 +1,11 @@
 import { PropTypes } from "prop-types";
+// components
 import UserListItem from "../userListItem/UserListItem";
+// styles
 import s from "./index.module.css";
+
 const UsersList = (prop) => {
-  const { users, deleteUser, updateUser } = prop;
+  const { users, deleteUser, handleButtonEditUser } = prop;
   return (
     <div className={s.containerList}>
       {users.length === 0 ? (
@@ -18,7 +21,7 @@ const UsersList = (prop) => {
               <UserListItem
                 key={user.id}
                 deleteUser={deleteUser}
-                updateUser={updateUser}
+                handleButtonEditUser={handleButtonEditUser}
                 user={user}
               />
             </>

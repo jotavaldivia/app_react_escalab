@@ -1,9 +1,11 @@
 import { PropTypes } from "prop-types";
+// styles
 import s from "./index.module.css";
+// icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 
-const Users = ({ user, deleteUser, updateUser }) => {
+const Users = ({ user, deleteUser, handleButtonEditUser }) => {
   return (
     <>
       <li className={s.user}>
@@ -22,7 +24,7 @@ const Users = ({ user, deleteUser, updateUser }) => {
         <div className={s.buttons}>
           <a
             onClick={(e) => {
-              updateUser(e, user);
+              handleButtonEditUser(e, user);
             }}
           >
             {" "}
@@ -49,7 +51,7 @@ Users.propTypes = {
     age: PropTypes.number.isRequired,
   }).isRequired,
   deleteUser: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
+  handleButtonEditUser: PropTypes.func.isRequired,
 };
 
 export default Users;

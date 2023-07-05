@@ -1,4 +1,5 @@
 import { PropTypes } from "prop-types";
+// styles
 import s from "./index.module.css";
 
 const UserForm = (props) => {
