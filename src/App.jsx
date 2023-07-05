@@ -1,9 +1,11 @@
-import PropTypes from "prop-types";
-import s from "./index.module.css";
-import UserForm from "./components/userForm/UserForm";
-import UsersList from "./components/usersList/UsersList";
-
 import { useState } from "react";
+import PropTypes from "prop-types";
+
+import s from "./index.module.css";
+// components
+import { UserForm, UsersList } from "./components";
+// import UsersList from "./components/usersList/UsersList";
+// data
 import { data } from "../data/data";
 
 function App() {
@@ -34,15 +36,12 @@ function App() {
     setUsers(newUsers);
   };
 
-  const handleEditUser = (e, _user) => {
+  const handleButtonEditUser = (e, _user) => {
     const { id, name, age } = _user;
     e.preventDefault();
     setIsEdit(true);
     console.log("editando usuario", id);
     setUser({ id: id, name: name, age: age });
-    // const userToEdit = users.find((user) => user.id === id);
-
-    // console.log(userToEdit);
   };
 
   const handleUpdateUser = (e) => {
@@ -77,7 +76,7 @@ function App() {
       <UsersList
         users={users}
         deleteUser={handleDeleteUser}
-        updateUser={handleEditUser}
+        handleButtonEditUser={handleButtonEditUser}
       />
     </div>
   );
