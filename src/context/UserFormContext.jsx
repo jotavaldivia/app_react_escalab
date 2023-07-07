@@ -1,80 +1,67 @@
-import { useState, createContext } from "react";
+import { createContext, useReducer } from "react";
 import PropTypes from "prop-types";
 
 import { data } from "../../data/data";
 
 export const UserFormContext = createContext();
 
-const UserProvider = ({ children }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [users, setUsers] = useState(data);
-
-  const [user, setUser] = useState({
+const initialState = {
+  users: data,
+  user: {
     id: null,
     name: null,
     age: null,
-  });
+  },
+  isEdit: false,
+};
 
-  const handleAddUser = (e, user) => {
-    e.preventDefault();
-    if (!user.name || !user.age) return alert("Por favor complete los campos");
-    const { name, age } = user;
-    const id = Math.floor(Math.random() * 10000) + 1;
-    console.log(name, age);
-    const newUser = {
-      id: id,
-      name: name,
-      age: age,
-    };
-    setUsers([...users, newUser]);
-  };
-
-  const handleDeleteUser = (id) => {
-    const newUsers = users.filter((user) => user.id !== id);
-    setUsers(newUsers);
-  };
-
-  const handleButtonEditUser = (e, _user) => {
-    const { id, name, age } = _user;
-    e.preventDefault();
-    setIsEdit(true);
-    console.log("editando usuario", id);
-    setUser({ id: id, name: name, age: age });
-  };
-
-  const handleUpdateUser = (e) => {
-    e.preventDefault();
-    console.log(user);
-    const newUser = {
-      id: user.id,
-      name: user.name,
-      age: user.age,
-    };
-    const newUsers = users.map((user) => {
-      if (user.id === newUser.id) {
-        return newUser;
-      } else {
-        return user;
-      }
-    });
-    setUsers(newUsers);
-    setIsEdit(false);
-    setUser({ name: "", age: "" });
-  };
+const UserProvider = ({ children }) => {
+  const [state, dispatch] = useReducer((state, action) => {
+    console.log("aqui", state, action);
+    switch (action.type) {
+      case "ADD_USER":
+        return {
+          ...state,
+          users: [...state.users, action.payload],
+          user: { id: null, name: "", age: "" },
+        };
+      case "DELETE_USER":
+        return {
+          ...state,
+          users: state.users.filter((user) => user.id !== action.payload),
+        };
+      case "EDIT_USER":
+        return {
+          ...state,
+          isEdit: true,
+          user: action.payload,
+        };
+      case "UPDATE_USER":
+        return {
+          ...state,
+          users: state.users.map((user) =>
+            user.id === action.payload.id ? action.payload : user
+          ),
+          isEdit: false,
+          user: { id: null, name: "", age: "" },
+        };
+      case "SET_USER":
+        return {
+          ...state,
+          user: action.payload,
+        };
+      default:
+        return state;
+    }
+  }, initialState);
 
   return (
     <UserFormContext.Provider
       value={{
-        user,
-        setUser,
-        users,
-        setUsers,
-        isEdit,
-        setIsEdit,
-        handleAddUser,
-        handleDeleteUser,
-        handleButtonEditUser,
-        handleUpdateUser,
+        users: state.users,
+        user: state.user,
+        isEdit: state.isEdit,
+        dispatch,
       }}
     >
       {children}

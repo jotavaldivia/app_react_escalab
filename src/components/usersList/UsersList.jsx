@@ -2,7 +2,7 @@
 import UserListItem from "../userListItem/UserListItem";
 // styles
 import s from "./index.module.css";
-import { useUserContext } from "../hooks/useUserContext";
+import { useUserContext } from "../../hooks/useUserContext";
 import { UserFormContext } from "../../context/UserFormContext";
 
 const UsersList = () => {

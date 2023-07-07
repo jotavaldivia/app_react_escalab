@@ -2,14 +2,13 @@ import s from "./index.module.css";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
-import { useUserContext } from "../hooks/useUserContext";
+import { useUserContext } from "../../hooks/useUserContext";
 import { UserFormContext } from "../../context/UserFormContext";
-import UsersList from "../usersList/UsersList";
 
 const Users = (props) => {
   const { user } = props;
-  const { handleButtonEditUser, handleDeleteUser } =
-    useUserContext(UserFormContext);
+  const { dispatch } = useUserContext(UserFormContext);
+
   return (
     <>
       <li className={s.user}>
@@ -27,8 +26,8 @@ const Users = (props) => {
 
         <div className={s.buttons}>
           <a
-            onClick={(e) => {
-              handleButtonEditUser(e, user);
+            onClick={() => {
+              dispatch({ type: "EDIT_USER", payload: user });
             }}
           >
             {" "}
@@ -36,7 +35,7 @@ const Users = (props) => {
           </a>
           <a
             onClick={() => {
-              handleDeleteUser(user.id);
+              dispatch({ type: "DELETE_USER", payload: user.id });
             }}
           >
             {" "}
@@ -49,10 +48,7 @@ const Users = (props) => {
 };
 
 export default Users;
-UsersList.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
-  }),
+
+Users.propTypes = {
+  user: PropTypes.object.isRequired,
 };
