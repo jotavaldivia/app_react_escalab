@@ -1,9 +1,12 @@
-import { PropTypes } from "prop-types";
-// styles
+import PropTypes from "prop-types";
+import { UserFormContext } from "../../context/UserFormContext";
 import s from "./index.module.css";
+import { useUserContext } from "../hooks/useUserContext";
 
-const UserForm = (props) => {
-  const { addUser, isEdit, user, setUser, handleUpdateUser } = props;
+const UserForm = () => {
+  const { user, setUser, isEdit, handleAddUser, handleUpdateUser } =
+    useUserContext(UserFormContext);
+
   const { name, age } = user;
 
   return (
@@ -15,7 +18,7 @@ const UserForm = (props) => {
             console.log("estas editando un usuario");
             handleUpdateUser(e, user);
           } else {
-            addUser(e, user);
+            handleAddUser(e, user);
           }
         }}
       >
@@ -55,12 +58,5 @@ export default UserForm;
 
 UserForm.propTypes = {
   addUser: PropTypes.func,
-  isEdit: PropTypes.bool,
-  user: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    age: PropTypes.number,
-  }).isRequired,
-  setUser: PropTypes.func,
   handleUpdateUser: PropTypes.func,
 };

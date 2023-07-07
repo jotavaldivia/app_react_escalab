@@ -1,11 +1,15 @@
-import { PropTypes } from "prop-types";
-// styles
 import s from "./index.module.css";
-// icons
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { useUserContext } from "../hooks/useUserContext";
+import { UserFormContext } from "../../context/UserFormContext";
+import UsersList from "../usersList/UsersList";
 
-const Users = ({ user, deleteUser, handleButtonEditUser }) => {
+const Users = (props) => {
+  const { user } = props;
+  const { handleButtonEditUser, handleDeleteUser } =
+    useUserContext(UserFormContext);
   return (
     <>
       <li className={s.user}>
@@ -32,7 +36,7 @@ const Users = ({ user, deleteUser, handleButtonEditUser }) => {
           </a>
           <a
             onClick={() => {
-              deleteUser(user.id);
+              handleDeleteUser(user.id);
             }}
           >
             {" "}
@@ -44,14 +48,11 @@ const Users = ({ user, deleteUser, handleButtonEditUser }) => {
   );
 };
 
-Users.propTypes = {
+export default Users;
+UsersList.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     age: PropTypes.number.isRequired,
-  }).isRequired,
-  deleteUser: PropTypes.func.isRequired,
-  handleButtonEditUser: PropTypes.func.isRequired,
+  }),
 };
-
-export default Users;

@@ -1,11 +1,12 @@
-import { PropTypes } from "prop-types";
 // components
 import UserListItem from "../userListItem/UserListItem";
 // styles
 import s from "./index.module.css";
+import { useUserContext } from "../hooks/useUserContext";
+import { UserFormContext } from "../../context/UserFormContext";
 
-const UsersList = (prop) => {
-  const { users, deleteUser, handleButtonEditUser } = prop;
+const UsersList = () => {
+  const { users } = useUserContext(UserFormContext);
   return (
     <div className={s.containerList}>
       {users.length === 0 ? (
@@ -18,12 +19,7 @@ const UsersList = (prop) => {
         {users.map((user) => {
           return (
             <>
-              <UserListItem
-                key={user.id}
-                deleteUser={deleteUser}
-                handleButtonEditUser={handleButtonEditUser}
-                user={user}
-              />
+              <UserListItem user={user} key={user.id} />
             </>
           );
         })}
@@ -32,13 +28,4 @@ const UsersList = (prop) => {
   );
 };
 
-UsersList.propTypes = {
-  users: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      age: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-};
 export default UsersList;
